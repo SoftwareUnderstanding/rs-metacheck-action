@@ -1,0 +1,16 @@
+{
+  "@context": "https://w3id.org/codemeta/3.0",
+  "type": "SoftwareSourceCode",
+  "name": "rs-metacheck-action",
+  "description": "A",
+  "programmingLanguage": "Python",
+  "operatingSystem": "Linux",
+  "developmentStatus": "active",
+  "referencePublication": "https://example",
+  "issueTracker": "not-a-url",
+  "downloadUrl": "ftp://broken.example/archive.zip",
+  "codeRepository": "https://example.com/404",
+  "author": {
+    "name": "  "
+  }
+}
