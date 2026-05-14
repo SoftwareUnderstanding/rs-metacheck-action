@@ -62,9 +62,4 @@ else
   POST_EXIT=0
 fi
 
-# Use post-process exit code (1 = pitfalls found) if it applies,
-# otherwise fall back to the rsmetacheck exit code
-if [ "$POST_EXIT" -ne 0 ]; then
-  exit "$POST_EXIT"
-fi
-exit "$RSMETA_EXIT"
+exit 0

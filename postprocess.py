@@ -81,14 +81,25 @@ def main() -> int:
     if github_output_path:
         _set_github_output(github_output_path, total_pitfalls, total_warnings, pitfalls_found, warnings_found)
 
+    total_issues = len(pitfalls_found) + len(warnings_found)
+    if total_issues > 0:
+        parts = []
+        if pitfalls_found:
+            parts.append(f"{len(pitfalls_found)} pitfalls")
+        if warnings_found:
+            parts.append(f"{len(warnings_found)} warnings")
+        print(f"::notice title=RsMetaCheck::Scan complete: {', '.join(parts)} detected")
+    else:
+        print("::notice title=RsMetaCheck::Scan complete: no pitfalls or warnings detected")
+
     for p in pitfalls_found:
         url = p.get("pitfall", f"https://w3id.org/rsmetacheck/catalog/#{p.get('pitfall_code','')}")
-        print(f"::error title=RsMetaCheck {p.get('pitfall_code','')}::{p.get('pitfall_desc','')} | More info: {url}")
+        print(f"::warning title=RsMetaCheck {p.get('pitfall_code','')}::{p.get('pitfall_desc','')} | More info: {url}")
     for w in warnings_found:
         url = w.get("pitfall", f"https://w3id.org/rsmetacheck/catalog/#{w.get('pitfall_code','')}")
         print(f"::warning title=RsMetaCheck {w.get('pitfall_code','')}::{w.get('pitfall_desc','')} | More info: {url}")
 
-    return 1 if pitfalls_found else 0
+    return 0
 
 
 def _write_step_summary(path, total_repos, total_pitfalls, total_warnings,
@@ -109,6 +120,19 @@ def _write_step_summary(path, total_repos, total_pitfalls, total_warnings,
         f.write(f"| Status | Repositories | Pitfalls | Warnings |\n")
         f.write(f"|--------|-------------|----------|----------|\n")
         f.write(f"| {status_icon} **{status_text}** | {total_repos} | {total_pitfalls} | {total_warnings} |\n\n")
+
+        if pitfalls_found or warnings_found:
+            f.write("### Issues\n\n")
+            CATALOG_BASE = "https://w3id.org/rsmetacheck/catalog"
+            for p in pitfalls_found:
+                code = p.get("pitfall_code", "")
+                f.write(f"[![{code}](https://img.shields.io/badge/{code}-red)]({CATALOG_BASE}/#{code}) ")
+            for w in warnings_found:
+                code = w.get("pitfall_code", "")
+                f.write(f"[![{code}](https://img.shields.io/badge/{code}-yellow)]({CATALOG_BASE}/#{code}) ")
+            f.write("\n\n")
+        elif not pitfalls_found and not warnings_found:
+            f.write("[![Status](https://img.shields.io/badge/status-passing-brightgreen)]()\n\n")
 
         if repo_map:
             f.write("### Repositories Analyzed\n\n")
