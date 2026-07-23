@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run RsMetaCheck
-        uses: SoftwareUnderstanding/rs-metacheck-action@0.3.3
+        uses: SoftwareUnderstanding/rs-metacheck-action@0.3.5
         # optional arguments
         with:
           pitfalls_output: "./pitfalls_outputs" 
