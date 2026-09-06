@@ -64,7 +64,7 @@ jobs:
 
 This action automatically reports results in the GitHub Actions UI:
 
-1. **Step Summary** — A rendered Markdown table appears at the bottom of the workflow run page, showing all detected pitfalls and warnings with descriptions, counts, and per-repository details.
+1. **Step Summary** — A rendered Markdown table appears at the bottom of the workflow run page, showing all detected pitfalls and warnings with descriptions, suggestions, and per-repository details.
 
 2. **Annotations** — Detected pitfalls appear as `::error::` annotations (red markers) and warnings as `::warning::` annotations (yellow markers) at the top of the workflow run page. When triggered by a pull request, these also appear inline on the diff view.
 
